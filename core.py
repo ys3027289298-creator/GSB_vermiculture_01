@@ -6,42 +6,59 @@ def new_game():
 
 def bug_29(state):
     state["nodes"].pop(1, None)
+    state["edges"] = {k: v for k, v in state["edges"].items() if 1 not in k}
     return True
 
 def bug_6(state):
-    return len(state["items"]) - 1
+    return len(state["items"])
 
 def bug_13(state):
     state["src"] -= 5
+    state["dst"] += 5
     return True
 
 def bug_20(state):
+    state["events"].pop(1, None)
     return True
 
 def bug_27(state):
-    return True
+    return False
 
 def bug_4(state):
+    if state["paused"]:
+        return False
     return True
 
 def bug_11(state):
+    if state["balance"] < 20:
+        return False
     state["balance"] -= 20
     return True
 
 def bug_18(state):
+    scheduled = state.setdefault("scheduled", set())
+    if "event" in scheduled:
+        return False
+    scheduled.add("event")
     return True
 
 def bug_25(state):
+    if state["paused"]:
+        return state["clock"]
     state["clock"] += 1
     return state["clock"]
 
 def bug_2(state):
-    return "empty"
+    return None
 
 def bug_30(state):
+    if any(entry[1] == "failed" for entry in state["log"]):
+        state["value"] = state["snapshot"]
     return True
 
 def bug_31(state):
+    if state["settled"]:
+        return False
     return True
 
 def main():
